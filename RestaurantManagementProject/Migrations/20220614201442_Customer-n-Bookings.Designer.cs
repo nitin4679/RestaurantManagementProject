@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagementProject.Data;
 
@@ -11,9 +12,10 @@ using RestaurantManagementProject.Data;
 namespace RestaurantManagementProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220614201442_Customer-n-Bookings")]
+    partial class CustomernBookings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,27 +222,7 @@ namespace RestaurantManagementProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RestaurantManagementProject.Models.Booking", b =>
-                {
-                    b.Property<int>("BookingsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingsId"), 1L, 1);
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TableNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BookingsId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("RestaurantManagementProject.Models.Customer", b =>
+            modelBuilder.Entity("RestaurantManagementProject.Models.Bookings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,7 +230,26 @@ namespace RestaurantManagementProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BookingId")
+                    b.Property<DateTime?>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TableNo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("RestaurantManagementProject.Models.Customers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("BookingsId")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerAddress")
@@ -270,7 +271,7 @@ namespace RestaurantManagementProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId");
+                    b.HasIndex("BookingsId");
 
                     b.ToTable("Customers");
                 });
@@ -326,16 +327,16 @@ namespace RestaurantManagementProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RestaurantManagementProject.Models.Customer", b =>
+            modelBuilder.Entity("RestaurantManagementProject.Models.Customers", b =>
                 {
-                    b.HasOne("RestaurantManagementProject.Models.Booking", "Booking")
+                    b.HasOne("RestaurantManagementProject.Models.Bookings", "Bookings")
                         .WithMany("Customers")
-                        .HasForeignKey("BookingId");
+                        .HasForeignKey("BookingsId");
 
-                    b.Navigation("Booking");
+                    b.Navigation("Bookings");
                 });
 
-            modelBuilder.Entity("RestaurantManagementProject.Models.Booking", b =>
+            modelBuilder.Entity("RestaurantManagementProject.Models.Bookings", b =>
                 {
                     b.Navigation("Customers");
                 });

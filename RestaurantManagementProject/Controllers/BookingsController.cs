@@ -10,90 +10,96 @@ using RestaurantManagementProject.Models;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class CustomersController : Controller
+    public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public BookingsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Customers
+        // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Customers.Include(c => c.Booking);
-            return View(await applicationDbContext.ToListAsync());
+              return _context.Bookings != null ? 
+                          View(await _context.Bookings.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Bookings'  is null.");
         }
 
-        // GET: Customers/Details/5
+        // GET: Bookings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Customers == null)
+            if (id == null || _context.Bookings == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .Include(c => c.Booking)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(m => m.BookingsId == id);
+            if (booking == null)
             {
                 return NotFound();
             }
+            var customers = _context.Customers.Where(m => m.BookingId == id);
 
-            return View(customer);
+            var viewModel = new BookingViewModel()
+            {
+                BookingsId = booking.BookingsId,
+                TableNo = booking.TableNo,
+                DateTime = booking.DateTime,
+                Customers = customers.ToList()
+            };
+
+            return View(viewModel);
         }
 
-        // GET: Customers/Create
+        // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["BookingId"] = new SelectList(_context.Bookings, "BookingsId", "TableNo");
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerName,CustomerAddress,CustomerPhoneNo,password,BookingId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("BookingsId,TableNo,DateTime")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookingId"] = new SelectList(_context.Bookings, "BookingsId", "TableNo", customer.BookingId);
-            return View(customer);
+            return View(booking);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Customers == null)
+            if (id == null || _context.Bookings == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
             {
                 return NotFound();
             }
-            ViewData["BookingId"] = new SelectList(_context.Bookings, "BookingsId", "TableNo", customer.BookingId);
-            return View(customer);
+            return View(booking);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Bookings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerName,CustomerAddress,CustomerPhoneNo,password,BookingId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("BookingsId,TableNo,DateTime")] Booking booking)
         {
-            if (id != customer.Id)
+            if (id != booking.BookingsId)
             {
                 return NotFound();
             }
@@ -102,12 +108,12 @@ namespace RestaurantManagementProject.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!BookingExists(booking.BookingsId))
                     {
                         return NotFound();
                     }
@@ -118,51 +124,57 @@ namespace RestaurantManagementProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookingId"] = new SelectList(_context.Bookings, "BookingsId", "TableNo", customer.BookingId);
-            return View(customer);
+            return View(booking);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Bookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Customers == null)
+            if (id == null || _context.Bookings == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .Include(c => c.Booking)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(m => m.BookingsId == id);
+            if (booking == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(booking);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Bookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Customers == null)
+            if (_context.Bookings == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Customers'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Bookings'  is null.");
             }
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer != null)
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking != null)
             {
-                _context.Customers.Remove(customer);
+                _context.Bookings.Remove(booking);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool BookingExists(int id)
         {
-          return (_context.Customers?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Bookings?.Any(e => e.BookingsId == id)).GetValueOrDefault();
         }
+    }
+
+    public class BookingViewModel
+    {
+        public int BookingsId { get; set; }
+        public string TableNo { get; set; }
+        public DateTime DateTime { get; set; }
+        public ICollection<Customer>? Customers { get; set; }
     }
 }

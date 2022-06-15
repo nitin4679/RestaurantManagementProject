@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RestaurantManagementProject.Models.Customers>
+﻿@model IEnumerable<RestaurantManagementProject.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.password)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Booking)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booking.TableNo)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

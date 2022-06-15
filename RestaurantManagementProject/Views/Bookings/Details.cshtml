@@ -1,0 +1,77 @@
+﻿@model RestaurantManagementProject.Controllers.BookingViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Booking</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TableNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TableNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+    </dl>
+    @if (Model.Customers.Any())
+    {
+         <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        CustomerName
+                    </th>
+                    <th>
+                        CustomerAddress
+                    </th>
+                    <th>
+                        CustomerPhoneNo
+                    </th>
+                    <th>
+                        password
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var customer in Model.Customers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.CustomerAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.CustomerPhoneNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => customer.password)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit","Edit","Customers", new {id = customer.Id})
+                            @Html.ActionLink("Details","Details","Customers", new {id = customer.Id})
+                            @Html.ActionLink("Delete","Delete","Customers", new {id = customer.Id})
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.BookingsId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

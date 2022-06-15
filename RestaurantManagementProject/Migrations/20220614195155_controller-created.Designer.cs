@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagementProject.Data;
 
@@ -11,9 +12,10 @@ using RestaurantManagementProject.Data;
 namespace RestaurantManagementProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220614195155_controller-created")]
+    partial class controllercreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,36 +222,13 @@ namespace RestaurantManagementProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RestaurantManagementProject.Models.Booking", b =>
-                {
-                    b.Property<int>("BookingsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingsId"), 1L, 1);
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TableNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BookingsId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("RestaurantManagementProject.Models.Customer", b =>
+            modelBuilder.Entity("RestaurantManagementProject.Models.Customers", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("BookingId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CustomerAddress")
                         .IsRequired()
@@ -260,17 +239,13 @@ namespace RestaurantManagementProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CustomerPhoneNo")
-                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<string>("password")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookingId");
 
                     b.ToTable("Customers");
                 });
@@ -324,20 +299,6 @@ namespace RestaurantManagementProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RestaurantManagementProject.Models.Customer", b =>
-                {
-                    b.HasOne("RestaurantManagementProject.Models.Booking", "Booking")
-                        .WithMany("Customers")
-                        .HasForeignKey("BookingId");
-
-                    b.Navigation("Booking");
-                });
-
-            modelBuilder.Entity("RestaurantManagementProject.Models.Booking", b =>
-                {
-                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }

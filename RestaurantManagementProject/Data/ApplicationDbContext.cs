@@ -10,6 +10,8 @@ namespace RestaurantManagementProject.Data
             : base(options)
         {
         }
-        public DbSet<RestaurantManagementProject.Models.Customers>? Customers { get; set; }
+        public DbSet<RestaurantManagementProject.Models.Customer>? Customers { get; set; }
+        public DbSet<RestaurantManagementProject.Models.Booking>? Bookings { get; set; }
+        public IEnumerable<object> Customer { get; internal set; }
     }
 }
