@@ -38,6 +38,7 @@
             @Html.DisplayNameFor(model => model.Department)
         </dt>
         <dd class = "col-sm-10">
+            @if(Model.Department != null)
             @Html.DisplayFor(model => model.Department.DepartmentName)
         </dd>
     </dl>
