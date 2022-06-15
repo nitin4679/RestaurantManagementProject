@@ -41,9 +41,22 @@ namespace RestaurantManagementProject.Controllers
             {
                 return NotFound();
             }
+            var staffs = _context.Staff.Where(m => m.DepartmentId == id);
 
-            return View(department);
+            var viewModal = new DepartmentViewModel()
+            {
+                DepartmentId = department.DepartmentId,
+                DepartmentName = department.DepartmentName,
+                DepartmentManager = department.DepartmentManager,
+                DepartmentSalary = department.DepartmentSalary,
+                Staffs = staffs.ToList()
+
+            };
+
+            return View(viewModal);
         }
+
+
 
         // GET: Departments/Create
         public IActionResult Create()
@@ -160,4 +173,13 @@ namespace RestaurantManagementProject.Controllers
           return (_context.Department?.Any(e => e.DepartmentId == id)).GetValueOrDefault();
         }
     }
+    public class DepartmentViewModel
+    {
+        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public string DepartmentManager { get; set; }
+        public int DepartmentSalary { get; set; }
+        public ICollection<Staff>? Staffs { get; set; }
+    }
+
 }

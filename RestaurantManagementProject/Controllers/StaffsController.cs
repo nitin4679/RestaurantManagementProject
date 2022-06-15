@@ -48,7 +48,7 @@ namespace RestaurantManagementProject.Controllers
         // GET: Staffs/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Set<Department>(), "DepartmentId", "DepartmentName");
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace RestaurantManagementProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Set<Department>(), "DepartmentId", "DepartmentName", staff.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", staff.DepartmentId);
             return View(staff);
         }
 
@@ -82,7 +82,7 @@ namespace RestaurantManagementProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Set<Department>(), "DepartmentId", "DepartmentName", staff.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", staff.DepartmentId);
             return View(staff);
         }
 
@@ -118,7 +118,7 @@ namespace RestaurantManagementProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Set<Department>(), "DepartmentId", "DepartmentName", staff.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", staff.DepartmentId);
             return View(staff);
         }
 

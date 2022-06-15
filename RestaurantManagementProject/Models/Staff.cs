@@ -12,7 +12,7 @@ namespace RestaurantManagementProject.Models
         [Required]
         public int PhoneNo { get; set; }
         [Required]
-        public DayOfWeek Availability { get; set; }
+        public string Availability { get; set; }
         [Required]
         [MaxLength(15, ErrorMessage = "Password cannot be larger than 15 char"), MinLength(8, ErrorMessage = "Password cannot be smaller than 8 char")]
         public string Password { get; set; }

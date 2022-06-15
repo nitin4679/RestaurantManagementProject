@@ -1,4 +1,4 @@
-﻿@model RestaurantManagementProject.Models.Department
+﻿@model RestaurantManagementProject.Controllers.DepartmentViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -29,6 +29,53 @@
             @Html.DisplayFor(model => model.DepartmentSalary)
         </dd>
     </dl>
+    @if (Model.Staffs.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        StaffName
+                    </th>
+                    <th>
+                        PhoneNo
+                    </th>
+                    <th>
+                        Availability
+                    </th>
+                    <th>
+                        Password
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var staffs in Model.Staffs)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => staffs.StaffName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => staffs.PhoneNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => staffs.Availability)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => staffs.Password)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit","Edit","Staffs", new {id = staffs.Id})
+                            @Html.ActionLink("Details","Details","Staffs", new {id = staffs.Id})
+                            @Html.ActionLink("Delete","Delete","Staffs", new {id = staffs.Id})
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.DepartmentId">Edit</a> |
