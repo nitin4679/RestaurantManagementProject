@@ -13,5 +13,7 @@ namespace RestaurantManagementProject.Data
         public DbSet<RestaurantManagementProject.Models.Customer>? Customers { get; set; }
         public DbSet<RestaurantManagementProject.Models.Booking>? Bookings { get; set; }
         public IEnumerable<object> Customer { get; internal set; }
+        public DbSet<RestaurantManagementProject.Models.Staff>? Staff { get; set; }
+        public DbSet<RestaurantManagementProject.Models.Department>? Department { get; set; }
     }
 }
