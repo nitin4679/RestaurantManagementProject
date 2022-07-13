@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,7 @@ namespace RestaurantManagementProject.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         // GET: Bookings/Create
         public IActionResult Create()
         {
@@ -76,6 +78,7 @@ namespace RestaurantManagementProject.Controllers
             return View(booking);
         }
 
+        [Authorize]
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -127,6 +130,7 @@ namespace RestaurantManagementProject.Controllers
             return View(booking);
         }
 
+        [Authorize]
         // GET: Bookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
