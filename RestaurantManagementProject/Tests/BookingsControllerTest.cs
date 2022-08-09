@@ -8,12 +8,12 @@ using RestaurantManagementProject.Models;
 
 namespace RestaurantManagementProject.Tests
 {
-    public class BookingsControllerTest
+    public class BookingsControllerTest : BasicTest
     {
         [Fact]
         public async Task Index_Returns_ViewResult_And_BookingList()
         {
-            using(var testDb = new ApplicationDbContext(this.GetTestDbOpts()))
+            using(var testDb = new ApplicationDbContext(this._opts))
             {
                 var testCtrl = new BookingsController(testDb);
                 var result = await testCtrl.Index();
@@ -26,7 +26,7 @@ namespace RestaurantManagementProject.Tests
         [Fact]
         public async Task Add_and_Remove()
         {
-            using (var testDb = new ApplicationDbContext(this.GetTestDbOpts()))
+            using (var testDb = new ApplicationDbContext(this._opts))
             {
                 var testCtrl = new BookingsController(testDb);
                 var fakeBookings = MakeFakeBookings(3);
@@ -58,27 +58,6 @@ namespace RestaurantManagementProject.Tests
 
             }
         }
-
-        private DbContextOptions<ApplicationDbContext> GetTestDbOpts()
-        {
-            return new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-RestaurantManagementProject-FE88B8AA-0954-41B8-8B5B-9F76012D4D0F;Trusted_Connection=True;MultipleActiveResultSets=true").Options;
-        }
-
-        private List<Booking> MakeFakeBookings(int i)
-        {
-            var bookings = new List<Booking>();
-            
-            for(int j = 0; j < i; j++)
-            {
-                bookings.Add(new Booking
-                {
-                    BookingsId = j + 1,
-                    TableNo = $"testTable{j + 2}",
-                    DateTime = DateTime.Now,
-                    Customers = new List<Customer>()
-                });
-            }
-            return bookings;
-        }
+        
     }
 }
